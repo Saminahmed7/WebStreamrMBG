@@ -93,7 +93,7 @@ export class Vegamovies extends Source {
       if (match) return match[1];
     }
 
-    const iframeSrc = $('iframe').attr('src');
+    const iframeSrc: string | null = $('iframe').attr('src') ?? null;
     if (iframeSrc) {
       return await this.extractFromPlayer(ctx, new URL(iframeSrc, playerUrl));
     }
