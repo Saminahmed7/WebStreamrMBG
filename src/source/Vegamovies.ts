@@ -67,8 +67,8 @@ export class Vegamovies extends Source {
         const directUrl = await this.extractFromPlayer(ctx, playerUrl);
         if (directUrl) {
           results.push({
-            url: directUrl,                         // directUrl is a string
-            meta: { title, referer: playerUrl.href } // referer must be a string
+            url: new URL(directUrl),   // SourceResult expects a URL object
+            meta: { title, referer: playerUrl.href }
           });
         }
       } catch {
@@ -82,7 +82,8 @@ export class Vegamovies extends Source {
     const html = await this.fetcher.text(ctx, playerUrl);
     const $ = cheerio.load(html);
 
-    const videoSrc = $('video source').attr('src') || $('video').attr('src') || null;
+    // attr() returns string | undefined, so we coerce to null
+    const videoSrc: string | null = $('video source').attr('src') ?? $('video').attr('src') ?? null;
     if (videoSrc) return new URL(videoSrc, playerUrl).href;
 
     const scripts = $('script').map((_i, el) => $(el).html()).get();
