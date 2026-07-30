@@ -87,7 +87,7 @@ export class A111477 extends Source {
     for (const script of scripts) {
       if (!script) continue;
       const match = script.match(/(?:file|src|source)\s*[:=]\s*["'](https?:\/\/[^"']+\.(?:m3u8|mp4)[^"']*)/i);
-      if (match) return match[1];
+      if (match) return match[1] ?? null;
     }
 
     const iframeSrc: string | null = $('iframe').attr('src') ?? null;
