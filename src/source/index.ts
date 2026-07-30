@@ -21,6 +21,9 @@ import { VerHdLink } from './VerHdLink';
 import { VidSrc } from './VidSrc';
 import { Vidzee } from './Vidzee';
 import { VixSrc } from './VixSrc';
+import { Vegamovies } from './Vegamovies';
+import { Mkvbase } from './Mkvbase';
+import { A111477 } from './A111477';
 
 export * from './Source';
 
@@ -29,6 +32,9 @@ export const createSources = (fetcher: Fetcher): Source[] => {
 
   return [
     // multi
+    new A111477(fetcher),
+new Vegamovies(fetcher),
+new Mkvbase(fetcher),
     new FourKHDHub(fetcher),
     new HDHub4u(fetcher),
     new VixSrc(fetcher),
