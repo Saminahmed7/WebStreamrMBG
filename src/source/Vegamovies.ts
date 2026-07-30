@@ -67,7 +67,7 @@ export class Vegamovies extends Source {
         const directUrl = await this.extractFromPlayer(ctx, playerUrl);
         if (directUrl) {
           results.push({
-            url: new URL(directUrl),   // SourceResult expects a URL object
+            url: new URL(directUrl),
             meta: { title, referer: playerUrl.href }
           });
         }
@@ -82,7 +82,6 @@ export class Vegamovies extends Source {
     const html = await this.fetcher.text(ctx, playerUrl);
     const $ = cheerio.load(html);
 
-    // attr() returns string | undefined, so we coerce to null
     const videoSrc: string | null = $('video source').attr('src') ?? $('video').attr('src') ?? null;
     if (videoSrc) return new URL(videoSrc, playerUrl).href;
 
@@ -90,7 +89,7 @@ export class Vegamovies extends Source {
     for (const script of scripts) {
       if (!script) continue;
       const match = script.match(/(?:file|src|source)\s*[:=]\s*["'](https?:\/\/[^"']+\.(?:m3u8|mp4)[^"']*)/i);
-      if (match) return match[1];
+      if (match) return match[1] ?? null;   // <-- FIX: ?? null
     }
 
     const iframeSrc: string | null = $('iframe').attr('src') ?? null;
