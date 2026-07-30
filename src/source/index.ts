@@ -32,9 +32,10 @@ export const createSources = (fetcher: Fetcher): Source[] => {
 
   return [
     // multi
+   // YOUR NEW SOURCES – tried first
     new A111477(fetcher),
-new Vegamovies(fetcher),
-new Mkvbase(fetcher),
+    new Vegamovies(fetcher),
+    new Mkvbase(fetcher),
     new FourKHDHub(fetcher),
     new HDHub4u(fetcher),
     new VixSrc(fetcher),
