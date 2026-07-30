@@ -67,7 +67,7 @@ export class A111477 extends Source {
         const directUrl = await this.extractFromPlayer(ctx, playerUrl);
         if (directUrl) {
           results.push({
-            url: directUrl,
+            url: new URL(directUrl),
             meta: { title, referer: playerUrl.href }
           });
         }
@@ -80,7 +80,7 @@ export class A111477 extends Source {
     const html = await this.fetcher.text(ctx, playerUrl);
     const $ = cheerio.load(html);
 
-    const videoSrc = $('video source').attr('src') || $('video').attr('src') || null;
+    const videoSrc: string | null = $('video source').attr('src') ?? $('video').attr('src') ?? null;
     if (videoSrc) return new URL(videoSrc, playerUrl).href;
 
     const scripts = $('script').map((_i, el) => $(el).html()).get();
