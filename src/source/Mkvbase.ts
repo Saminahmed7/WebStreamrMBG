@@ -67,8 +67,8 @@ export class Mkvbase extends Source {
         const directUrl = await this.extractFromPlayer(ctx, playerUrl);
         if (directUrl) {
           results.push({
-            url: new URL(directUrl),
-            meta: { title, referer: playerUrl }
+            url: directUrl,
+            meta: { title, referer: playerUrl.href }
           });
         }
       } catch {}
@@ -80,7 +80,7 @@ export class Mkvbase extends Source {
     const html = await this.fetcher.text(ctx, playerUrl);
     const $ = cheerio.load(html);
 
-    const videoSrc = $('video source').attr('src') || $('video').attr('src');
+    const videoSrc = $('video source').attr('src') || $('video').attr('src') || null;
     if (videoSrc) return new URL(videoSrc, playerUrl).href;
 
     const scripts = $('script').map((_i, el) => $(el).html()).get();
